@@ -1,4 +1,4 @@
-public class Dé noir extends Dé {
+public class DéNoir extends Dé {
 
 	private boolean etat;
 
