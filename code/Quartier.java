@@ -2,7 +2,7 @@ public class Quartier {
 
 	private String couleurQuartier;
 
-	public void choisirLigne(String type) {
+	public Ligne choisirLigne(String type) {
 
 	}
 
