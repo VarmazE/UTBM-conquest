@@ -4,21 +4,21 @@ public class De {
 
 	private int valeurDe;
 
-	private int idDé; // je comprends pas le but d'un id
+	private int idDe; // je comprends pas le but d'un id
 	
 	private static int compteur = 0;
 	
 	public De(){
 		this.valeurDe=0;
-		this.idDé=0;
+		this.idDe=0;
 	}
 	
 	public De(int x){
 		this.valeurDe=x;
-		this.idDé=++compteur;
+		this.idDe=++compteur;
 	}
 	public int getIdDe() {
-		return idDé;
+		return idDe;
 	}
 	
 	public int getValeurDe() {
