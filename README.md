@@ -1,1 +1,1 @@
-# Troyes-dices
+# UTBM-conquest
