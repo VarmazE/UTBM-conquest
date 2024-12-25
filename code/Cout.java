@@ -23,5 +23,11 @@ public class Cout {
 		this.montant=x;
 	}
 
+	public void setRessources( ArrayList<Ressources> lr) {
+		listRessrouces=lr;
+	}
+
+
+
 
 }
