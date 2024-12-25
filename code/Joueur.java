@@ -103,11 +103,17 @@ public class Joueur
 
 
 
-	public ArrayList<Zone> changerCouleurJeton(int index, ArrayList<Zone> listeZone)
+	public ArrayList<Zone> changerCouleurJeton(int index, ArrayList<Zone> listeZone) 
 	{
+		if (checkRessources("Gris", 2))
+		{
 			Zone zone = listeZone.get(index);
 			zone.getJeton().inverserCouleur();
-			return listeZone;
+			System.out.println("La couleur du jeton de la zone à l'index " + index + " a été changée avec succès.");
+		} else {
+			System.out.println("Pas assez de ressources pour changer la couleur du jeton.");
+		}
+		return listeZone;
 	}
 
 	public boolean checkRessources(String type, int nombre)
