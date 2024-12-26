@@ -1,30 +1,28 @@
 public class DeNoir extends De {
 
 	private boolean etat;
-	
-	public DeNoir(){
+
+	/**
+	 * Constructeur par défaut : initialise le dé noir avec un état inactif.
+	 */
+	public DeNoir() {
 		super();
-		this.etat=false;
+		this.etat = false;
 	}
-	public DeNoir(int x) {
-		super(x);
-		this.etat=false;
-	}
-	
-	public void isActif() {
-		if (this.etat==true) {
-			this.etat=false;
-		}else {
-			this.etat=true;
-		}
-	}
-	public boolean getEtat() {
+
+	/**
+	 * Vérifie si le dé noir est actif.
+	 *
+	 * @return true si le dé est actif, false sinon
+	 */
+	public boolean isActif() {
 		return this.etat;
 	}
-	
-	public void setEtat(boolean x) {
-		this.etat=x;
-	}
-	
 
+	/**
+	 * Définit l'état du dé à actif
+	 */
+	public void setActif() {
+		this.etat = true;
+	}
 }

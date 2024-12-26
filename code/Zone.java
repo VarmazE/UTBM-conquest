@@ -1,62 +1,88 @@
 public class Zone {
 
-	private int idZone;
 	private Jeton jeton;
 	private Cout cout;
 	private boolean etat;
-	
-	private static int compteur = 0;
-	
-	public Zone(){
-		this.idZone=++compteur;
-		this.jeton = new Jeton();
-		this.cout = new Cout();
-		this.etat=true;
-	}
-	
-	public Zone(Jeton j, Cout c, boolean b){
-		this.idZone=++compteur;
-		this.jeton = j;
-		this.cout = c;
-		this.etat=b;
-	}
-	
-	public void isActif() {
-		if (this.etat==false) {
-			this.etat=true;
-		}else {
-			this.etat=false;
-		}
-	}
-	
-	public boolean getEtat() {
-		return this.etat;
-	}
-	public void setEtat(boolean b) {
-		this.etat=b;
-	}
-	// METHODES JETON
-	
-	public String getCouleur() {
-		return jeton.getCouleur();
-	}
-	public void setCouleur(String s) {
-		jeton.setCouleur(s);
-	}
-	public int getIdJeton() {
-		return jeton.getId();
-	}
-	public void inverserCouleur() {
-		jeton.inverserCouleur();
-	}
-	
-	// METHODES COUT
-	public int getMontant() {
-		return cout.getMontant();
-	}
-	
-	public void setMontant(int x) {
-		cout.setMontant(x);
+
+	/**
+	 * Constructeur par défaut.
+	 * Initialise une zone avec un état actif, sans jeton ni coût.
+	 */
+	public Zone() {
+		this.jeton = null;
+		this.cout = null;
+		this.etat = true;
 	}
 
+	/**
+	 * Constructeur avec paramètres.
+	 *
+	 * @param j Le jeton associé à la zone.
+	 */
+	public Zone(Jeton j) {
+		this.jeton = j;
+		this.cout = null;
+		this.etat = true;
+	}
+
+
+	public Zone(Zone z) {
+		this.jeton = new Jeton(z.jeton);
+		this.cout = z.cout;
+		this.etat = true;
+	}
+
+	/**
+	 * Obtient le jeton associé à la zone.
+	 *
+	 * @return Le jeton de la zone.
+	 */
+	public Jeton getJeton() {
+		return jeton;
+	}
+
+	/**
+	 * Définit un nouveau jeton pour la zone.
+	 *
+	 * @param j Le nouveau jeton à associer.
+	 */
+	public void setJeton(Jeton j) {
+		this.jeton = j;
+	}
+
+	/**
+	 * Obtient le coût associé à la zone.
+	 *
+	 * @return Le coût de la zone.
+	 */
+	public Cout getCout() {
+		return cout;
+	}
+
+	/**
+	 * Définit un nouveau coût pour la zone.
+	 *
+	 * @param c Le nouveau coût à associer.
+	 */
+	public void setCout(Cout c) {
+		this.cout = c;
+	}
+
+	/**
+	 * Obtient l'état actuel de la zone.
+	 *
+	 * @return true si la zone est active, false sinon.
+	 */
+	public boolean isActive() {
+		return this.etat;
+	}
+
+	/**
+	 * Définit l'état de la zone.
+	 *
+	 * @param b true pour activer la zone, false pour la désactiver.
+	 */
+	public void setEtat(boolean b) {
+		this.etat = b;
+	}
 }

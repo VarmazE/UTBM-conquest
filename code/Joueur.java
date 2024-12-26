@@ -1,172 +1,160 @@
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
-public class Joueur
-{
 
-	private String nom;
-	private Grille grille;
+public class Joueur {
 
-	Joueur(String nom)
-	{
-		this.nom = nom;
-		grille = new Grille();
-	}
-	public void jouerTour(PlateauJeu p)
-	{
+    private String nom;
+    private Grille grille;
+    int score;
 
-	}
+    public Joueur(String nom) {
+        this.nom = nom;
+        this.grille = new Grille();
+    }
 
+    /**
+     * Gère le tour de jeu pour ce joueur.
+     *
+     * @param p        Le plateau de jeu.
+     * @param semestre Le semestre courant.
+     */
+    public void jouerTour(PlateauJeu p, String semestre) {
+        List<De> des = p.getDes();
+        List<Zone> zones = p.getActiveZone(semestre);
+        Scanner scanner = new Scanner(System.in);
 
-	public int choisirZone(int index, Ressources r)
-	{
-		// Vérifie que l'index est valide
-		if (index < 0 || index >= 4)
-		{
-			System.out.println("Erreur : L'index de la zone doit être compris entre 0 et 3.");
-			return -1;
-		}
+        int index = choisirIndex(scanner, "Sélectionnez un index de zone (0 à " + (zones.size() - 1) + "): ", 0, zones.size() - 1);
 
-		if (checkRessources(r.getType(), r.getNombre()))
-		{
-			System.out.println("Zone sélectionnée avec succès à l'index " + index + ".");
-			return index;
-		}
-		else
-		{
-			System.out.println("Pas assez de ressources pour accéder à cette zone.");
-			return -1; //
-		}
-	}
+        // Méthode provisoire plus tard faudra choisir les ressources à utiliser etc
+        if (choisirZone(index, new Ressources(Constante.COMMUNICATION, 1), zones, des)) {
+            if (confirmationUtilisateur(scanner, "Voulez-vous incrémenter le dé ? (oui/non)")) {
+                incrementerDes(des.get(index));
+            }
 
-	public Grille getGrille()
-	{
-		return grille;
-	}
-	public String getNom()
-	{
-		return nom;
-	}
-	public ArrayList<De> incrementerDes(int index, ArrayList<De> listeDes) {
-		// Récupérer le dé correspondant
-		De de = listeDes.get(index);
+            if (confirmationUtilisateur(scanner, "Voulez-vous décrémenter le dé ? (oui/non)")) {
+                decrementerDes(des.get(index));
+            }
 
-		// Vérifie si le joueur a assez de ressources
-		if (checkRessources("Rouge", 1)) {
-			// Incrémente la valeur du dé directement
-			de.incrementer();
-			System.out.println("Le dé à l'index " + index + " a été incrémenté avec succès.");
+            if (confirmationUtilisateur(scanner, "Voulez-vous changer la couleur d’un jeton ? (oui/non)")) {
+                changerCouleurJeton(zones.get(index));
+            }
 
-			// Crée un objet Ressources pour dépenser les ressources nécessaires
-			Ressources r1 = new Ressources();
-			r1.setType("Rouge");
-			r1.setNombre(1);
-			grille.depenserRessource(r1); // Déduit les ressources
-		} else {
-			System.out.println("Pas assez de ressources pour incrémenter le dé.");
-		}
+            if (confirmationUtilisateur(scanner, "Voulez-vous construire un bâtiment ? (oui/non)")) {
+                System.out.print("Quel type de bâtiment voulez-vous construire ? : ");
+                String typeBatiment = scanner.next();
+                grille.construireBatiment(typeBatiment,zones,des,index);
+            } else{
+                grille.ajouterRessource(new Ressources(zones.get(index).getJeton().getCouleur(),des.get(index).getValeurDe()));
+            }
+        }
 
-		// Retourne la liste des dés mise à jour
-		return listeDes;
-	}
+        System.out.println("Vos actions pour ce tour sont terminées !");
+    }
 
+    /**
+     * Permet au joueur de choisir une zone et de vérifier les conditions nécessaires.
+     *
+     * @param index L'index de la zone.
+     * @param r     Les ressources nécessaires.
+     * @param zones La liste des zones.
+     * @param des   La liste des dés.
+     * @return true si la zone est sélectionnée avec succès, false sinon.
+     */
+    public boolean choisirZone(int index, Ressources r, List<Zone> zones, List<De> des) {
+        if (index < 0 || index >= zones.size()) {
+            System.out.println("Erreur : L'index de la zone est invalide.");
+            return false;
+        }
 
+        Cout cout = zones.get(index).getCout();
+        System.out.println(cout);
+        System.out.println(zones.get(index));
+        if (!cout.canPayWithRessource(r)) {
+            System.out.println("Pas la bonne type de ressource.");
+            return false;
+        }
 
+        if (!(des.get(index) instanceof DeNoir) && checkAndDepenseRessource(r.getType(), r.getNombre())) {
+            System.out.println("Zone sélectionnée avec succès à l'index " + index + ".");
+            return true;
+        }
 
-	public ArrayList<De> decrementerDes(int index, ArrayList<De> listeDes)
-	{
-		// Récupérer le dé correspondant
-		De de = listeDes.get(index);
+        System.out.println("Conditions non remplies pour accéder à cette zone.");
+        return false;
+    }
 
-		// Vérifie si le joueur a assez de ressources
-		if (checkRessources("Rouge", 1)) {
-			// Vérifie si le dé peut être décrémenté
-			if (de.getValeurDe() > 1) {
-				de.decrementer(); // Décrémente la valeur du dé
-				System.out.println("Le dé à l'index " + index + " a été décrémenté avec succès.");
+    public Grille getGrille() {
+        return grille;
+    }
 
-				// Crée un objet Ressources pour dépenser les ressources nécessaires
-				Ressources r1 = new Ressources();
-				r1.setType("Rouge");
-				r1.setNombre(1);
-				grille.depenserRessource(r1); // Déduit les ressources
-			} else {
-				System.out.println("Impossible : le dé est déjà à sa valeur minimale.");
-			}
-		} else {
-			System.out.println("Pas assez de ressources pour décrémenter le dé.");
-		}
+    public String getNom() {
+        return nom;
+    }
 
-		// Retourne la liste des dés mise à jour
-		return listeDes;
-	}
+    private boolean checkAndDepenseRessource(String type, int nombre) {
+        if (grille.getRessourceByType(type).calculerRessource() >= nombre) {
+            grille.depenserRessource(new Ressources(type, nombre));
+            return true;
+        }
+        return false;
+    }
 
+    public boolean incrementerDes(De de) {
+        if (de.incrementer() && checkAndDepenseRessource(Constante.COMMUNICATION, 1)) {
+            System.out.println("Le dé a été incrémenté avec succès.");
+            return true;
+        } else {
+            System.out.println("Pas assez de ressources pour incrémenter le dé.");
+            return false;
+        }
+    }
 
+    public boolean decrementerDes(De de) {
+        if (de.decrementer() && checkAndDepenseRessource(Constante.COMMUNICATION, 1)) {
+            System.out.println("Le dé a été décrémenté.");
+            return true;
+        } else {
+            System.out.println("Pas assez de ressources pour décrémenter le dé.");
+            return false;
+        }
+    }
 
-	public ArrayList<Zone> changerCouleurJeton(int index, ArrayList<Zone> listeZone) 
-	{
-		if (checkRessources("Gris", 2))
-		{
-			Zone zone = listeZone.get(index);
-			zone.getJeton().inverserCouleur();
-			System.out.println("La couleur du jeton de la zone à l'index " + index + " a été changée avec succès.");
-		} else {
-			System.out.println("Pas assez de ressources pour changer la couleur du jeton.");
-		}
-		return listeZone;
-	}
+    public boolean changerCouleurJeton(Zone zone) {
+        if (checkAndDepenseRessource(Constante.SAVOIR, 2)) {
+            zone.getJeton().inverserCouleur();
+            System.out.println("La couleur du jeton a été changée avec succès.");
+            return true;
+        } else {
+            System.out.println("Pas assez de ressources pour changer la couleur du jeton.");
+            return false;
+        }
+    }
 
-	public boolean checkRessources(String type, int nombre)
-	{
-		switch (type)
-		{
-			case "Rouge":
-				return grille.getRessourceByType(type).calculerRessource() >= nombre;
-			case "Jaune":
-				return grille.getRessourceByType(type).calculerRessource() >= nombre;
-			case "Gris":
-				return grille.getRessourceByType(type).calculerRessource() >= nombre;
-			default:
-				return false; // Si le type n'est pas reconnu, on retourne false.
-		}
-	}
+    // Méthodes utilitaires
 
-	public void choisirAction(int index, ArrayList<De> listeDes, ArrayList<Zone> zones, PlateauJeu p)
-	{
-		Scanner scanner = new Scanner(System.in);
+    private int choisirIndex(Scanner scanner, String message, int min, int max) {
+        int index;
+        while (true) {
+            System.out.print(message);
+            try {
+                index = Integer.parseInt(scanner.next());
+                if (index >= min && index <= max) {
+                    return index;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Veuillez entrer un nombre valide.");
+            }
+        }
+    }
 
-		System.out.print("Voulez-vous incrémenter le dé ? (oui/non) : ");
-		String reponse = scanner.next().toLowerCase();
-		if (reponse.equals("oui"))
-		{
-			incrementerDes(index, listeDes);
-		}
+    private boolean confirmationUtilisateur(Scanner scanner, String message) {
+        System.out.print(message + " ");
+        String reponse = scanner.next().toLowerCase();
+        return reponse.equals("oui");
+    }
 
-		System.out.print("Voulez-vous décrémenter le dé ? (oui/non) : ");
-		reponse = scanner.next().toLowerCase();
-		if (reponse.equals("oui"))
-		{
-			decrementerDes(index, listeDes);
-		}
-
-		System.out.print("Voulez-vous changer la couleur d’un jeton ? (oui/non) : ");
-		reponse = scanner.next().toLowerCase();
-		if (reponse.equals("oui"))
-		{
-			changerCouleurJeton(index, zones);
-		}
-
-		System.out.print("Voulez-vous construire un bâtiment ? (oui/non) : ");
-		reponse = scanner.next().toLowerCase();
-		if (reponse.equals("oui"))
-		{
-			System.out.print("Quel type de bâtiment voulez-vous construire ? : ");
-			String typeBatiment = scanner.next();
-			grille.construireBatiment(p, index, typeBatiment);
-		}
-
-		System.out.println("Vos actions pour ce tour sont terminées !");
-	}
-
-
+    public int getScore(){
+        this.score = grille.calculerScore();
+        return score;
+    }
 }

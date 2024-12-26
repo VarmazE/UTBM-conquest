@@ -1,77 +1,73 @@
-import java.util.Random;
-
 public class De {
 
 	private int valeurDe;
 
-	private int idDe; // je comprends pas le but d'un id
-	
-	private static int compteur = 0;
-	
-	public De(){
-		this.valeurDe=0;
-		this.idDe=0;
+	/**
+	 * Constructeur par défaut : initialise le dé avec une valeur entre 1 et 6.
+	 */
+	public De() {
+		this.valeurDe = 0;
 	}
-	
-	public De(int x){
-		this.valeurDe=x;
-		this.idDe=++compteur;
+
+	public De(De de){
+		this.valeurDe = de.valeurDe;
 	}
-	public int getIdDe() {
-		return idDe;
-	}
-	
+
+	/**
+	 * Getter pour obtenir la valeur actuelle du dé.
+	 *
+	 * @return La valeur actuelle du dé
+	 */
 	public int getValeurDe() {
 		return valeurDe;
 	}
-	
+
+	/**
+	 * Setter pour définir une valeur spécifique pour le dé.
+	 * Valide que la valeur est comprise entre 1 et 6.
+	 *
+	 * @param x La nouvelle valeur du dé
+	 */
 	public void setValeurDe(int x) {
-		this.valeurDe=x;
+		/*if (x < 1 || x > 6) {
+			throw new IllegalArgumentException("La valeur du dé doit être comprise entre 1 et 6.");
+		}*/
+		this.valeurDe = x;
 	}
-	
+
+	/**
+	 * Lance le dé et lui attribue une nouvelle valeur aléatoire entre 1 et 6.
+	 */
 	public void lancerDe() {
 		this.valeurDe = (int) (Math.random() * 6) + 1;
 	}
-	
-	// ici jsp si on décremente tout le temps de 1 ou on décremente d'une certaine valeur souhaité donc j'ai fais les deux
-	public void décrémenter() {
-		if(valeurDe < 2) {
-			System.out.println("Impossible de décrementer plus"); //message d'erreur qu'on peut supprimer plus tard
-		}else {
+
+	/**
+	 * Décrémente la valeur du dé d'une unité, si possible.
+	 */
+	public boolean decrementer() {
+		if (valeurDe <= 1) {
+			//throw new IllegalStateException("Impossible de décrémenter : valeur minimale atteinte.");
+			System.out.println("Impossible de décrémenter : valeur minimale atteinte.");
+			return false;
+		} else {
 			valeurDe--;
+			return true;
 		}
-
-	}
-	public void décrémenter(int x) {
-		if(valeurDe-x < 1) {
-			System.out.println("Impossible de décrementer la totalité");//message d'erreur qu'on peut supprimer plus tard
-			while(valeurDe >1) {
-				valeurDe--;
-			}
-		}else {
-			valeurDe=valeurDe-x;
-		}
-
 	}
 
-	public void incrémenter() {
-		if(valeurDe > 5) {
-			System.out.println("Impossible d'incrémenter plus");//message d'erreur qu'on peut supprimer plus tard
-		}else {
+	/**
+	 * Incrémente la valeur du dé d'une unité, si possible.
+	 */
+	public boolean incrementer() {
+		if (valeurDe >= 6) {
+			//throw new IllegalStateException("Impossible d'incrémenter : valeur maximale atteinte.");
+			System.out.println("Impossible d'incrémenter : valeur maximale atteinte.");
+			return false;
+		} else {
 			valeurDe++;
+			return true;
+
 		}
-
 	}
-	public void incrémenter(int x) {
-		if(valeurDe+x > 6) {
-			System.out.println("Impossible d'augmenter la totalité");//message d'erreur qu'on peut supprimer plus tard
-			while(valeurDe < 6) {
-				valeurDe++;
-			}
-		}else {
-			valeurDe=valeurDe+x;
-		}
-
-	}
-
 }

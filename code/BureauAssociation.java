@@ -1,29 +1,41 @@
+/**
+ * La classe BureauAssociation représente un type spécifique de bâtiment
+ * qui permet d'avoir un certains nombre de récompense en fonction du nombre dés
+ * sur la couleur de l'attribut couleurJeton
+ */
 public class BureauAssociation extends Batiment {
 
 	private String couleurJeton;
-
-	private int nombre;
-
+	private int nombre; // Multiplicateur récompense
 	private Recompenses recompenseCase;
-
-	public BureauAssociation(String couleurJeton, int nombre, Bonhomme recompenseBonhomme, Recompenses recompenseCase) {
+	/**
+	 * Constructeur de la classe BureauAssociation.
+	 *
+	 * @param couleurJeton La couleur du jeton associée.
+	 * @param recompenseBonhomme La récompense de type Bonhomme associée au bâtiment.
+	 * @param recompenseCase La récompense spécifique de la case.
+	 */
+	public BureauAssociation(String couleurJeton, Bonhomme recompenseBonhomme, Recompenses recompenseCase) {
 		super(recompenseBonhomme);
 		this.couleurJeton = couleurJeton;
-		this.nombre = nombre;
 		this.recompenseCase = recompenseCase;
 	}
 
+	/**
+	 * Obtient la couleur du jeton associée.
+	 *
+	 * @return La couleur du jeton.
+	 */
 	public String getCouleurJeton() {
 		return couleurJeton;
 	}
 
-
-	public int getNombre() {
-		return nombre;
-	}
-
+	/**
+	 * Obtient la récompense spécifique de la case.
+	 *
+	 * @return La récompense de la case.
+	 */
 	public Recompenses getRecompenseCase() {
-		return this.recompenseCase;
+		return recompenseCase;
 	}
-
 }

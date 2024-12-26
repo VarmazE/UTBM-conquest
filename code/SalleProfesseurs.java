@@ -1,13 +1,32 @@
+/**
+ * La classe SalleProfesseurs représente un bâtiment spécifique
+ * qui contient un personnage associé.
+ */
 public class SalleProfesseurs extends Batiment {
 
-	private Personnage Personnage;
+	private Personnage personnage; // Personnage associé à la salle des professeurs
 
+	/**
+	 * Constructeur de la classe SalleProfesseurs.
+	 *
+	 * @param recompense La récompense associée à la construction de la salle.
+	 * @param personnage Le personnage associé à la salle.
+	 * @throws IllegalArgumentException Si le personnage est null.
+	 */
 	public SalleProfesseurs(Bonhomme recompense, Personnage personnage) {
 		super(recompense);
-		Personnage = personnage;
+		/*if (personnage == null) {
+			throw new IllegalArgumentException("Le personnage ne peut pas être null.");
+		}*/
+		this.personnage = personnage;
 	}
 
+	/**
+	 * Obtient le personnage associé à la salle des professeurs.
+	 *
+	 * @return Le personnage de la salle.
+	 */
 	public Personnage getPersonnage() {
-		return Personnage;
+		return personnage;
 	}
 }

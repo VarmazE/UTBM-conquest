@@ -1,134 +1,118 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Jeu
-{
+/**
+ * La classe Jeu gère le flux principal du jeu, y compris l'initialisation, les tours,
+ * les semestres, et la fin du jeu.
+ */
+public class Jeu {
 
+	// Attributs
 	private int toursTotal;
-
 	private int tourCourant;
-
 	private String semestre;
-
 	private PlateauJeu plateauJeu;
-
 	private ArrayList<Joueur> joueurs;
 
-	public void initialiserJeu()
-	{
+	/**
+	 * Constructeur de la classe Jeu.
+	 *
+	 * @param players Les joueurs participant au jeu.
+	 */
+	public Jeu(Joueur... players) {
+		/*if (players.length < 1) {
+			throw new IllegalArgumentException("Il doit y avoir au moins un joueur.");
+		}*/
+
+		joueurs = new ArrayList<>();
+		Collections.addAll(joueurs, players);
+
+		initialiserJeu();
+	}
+
+	/**
+	 * Initialise le jeu : plateau, tours et semestre.
+	 */
+	private void initialiserJeu() {
 		System.out.println("Initialisation du jeu...");
 
-		// Étape 1 : Initialiser les joueurs
-		joueurs = new ArrayList<>();
-		Joueur j1 = new Joueur("Joueur 1");
-		Joueur j2 = new Joueur("Joueur 2");
-
-		// Ajouter les joueurs à la liste
-		joueurs.add(j1);
-		joueurs.add(j2);
-
-		// Étape 2 : Initialiser le plateau
 		plateauJeu = new PlateauJeu();
-
-		// Étape 3 : Configurer les tours et le semestre
 		tourCourant = 0;
-		toursTotal =8;
-		semestre = "Semestre pair";
+		toursTotal = 8;
+		semestre = Constante.AUTOMNE;
 
 		System.out.println("Jeu initialisé !");
 	}
 
-
-	public void passerSemestre()
-	{
-		if (tourCourant >= toursTotal)
-		{
-			System.out.println("Le jeu est terminé");
+	/**
+	 * Passe au semestre suivant, tourne le plateau et met à jour le tour courant si nécessaire.
+	 */
+	private void passerSemestre() {
+		if (tourCourant >= toursTotal) {
+			System.out.println("Le jeu est terminé.");
+			return;
 		}
 
-		if (semestre.equals("Semestre pair"))
-		{
-			semestre = "Semestre impair";
-		}
-		else
-		{
-			semestre = "Semestre pair";
-
-			tourCourant++;
-			System.out.println("Tour Complet terminé. Tour courant : " + tourCourant);
-		}
-
-		/**Verfier si la methode  semestre suivant existe dans plateau**/
-		plateauJeu.semestreSuivante();
-
-	}
-
-	public void afficherScore()
-	{
-		System.out.println("Scores des joueurs :");
-
-		for (Joueur j : joueurs) {
-			System.out.println("Joueur nom : " + j.getNom() + " - Score : " + j.getGrille().calculerScore());
-		}
-	}
-
-
-	public void terminerJeu() {
-		if (tourCourant == toursTotal) {
-			System.out.println("Le jeu est terminé !");
-			System.out.println("Voici les résultats finaux :");
-
-			// Étape 1 : Afficher les scores
-			afficherScore();
-
-			Joueur gagnant = null;
-			int scoreMax = Integer.MIN_VALUE;
-
-			// Étape 2 : Déterminer le gagnant
-			for (Joueur j : joueurs) {
-				int score = j.getGrille().getScore();
-
-				if (score > scoreMax) {
-					scoreMax = score;
-					gagnant = j;
-				} else if (score == scoreMax) {
-					gagnant = null; // En cas d'égalité, aucun gagnant unique
-				}
-			}
-
-			// Étape 3 : Afficher le gagnant ou une égalité
-			if (gagnant != null) {
-				System.out.println("Le gagnant est : " + gagnant.getNom() + " avec " + scoreMax + " points !");
-			} else {
-				System.out.println("Il y a une égalité entre les joueurs !");
-			}
+		if (semestre.equalsIgnoreCase(Constante.AUTOMNE)) {
+			semestre = Constante.PRINTEMPS;
 		} else {
-			// Si la méthode est appelée alors que le jeu n’est pas terminé
-			System.out.println("Le jeu n’est pas encore terminé. Tours restants : " + (toursTotal - tourCourant));
+			semestre = Constante.AUTOMNE;
+			tourCourant++;
+			plateauJeu.tournerPlateau();
+			System.out.println("Tour complet terminé. Tour courant : " + tourCourant);
 		}
 	}
 
+	/**
+	 * Affiche les scores des joueurs.
+	 */
+	private void afficherScores() {
+		System.out.println("Scores des joueurs :");
+		for (Joueur j : joueurs) {
+			System.out.println("Joueur : " + j.getNom() + " - Score : " + j.getScore());
+		}
+	}
 
-	public void jouer()
-	{
-		initialiserJeu();
+	/**
+	 * Termine le jeu et détermine le gagnant.
+	 */
+	private void terminerJeu() {
+		System.out.println("Le jeu est terminé !");
+		System.out.println("Voici les résultats finaux :");
 
+		afficherScores();
 
-		while (tourCourant < toursTotal)
-		{
-			System.out.println("\n=== Tour " + (tourCourant + 1) + " ===");
+		joueurs.sort((j1, j2) -> Integer.compare(j2.getScore(), j1.getScore())); // ordre décroissant j2 est mis en premier
+		Joueur gagnant = joueurs.get(0);
 
-			plateauJeu.lancerDes();
+		System.out.println("Le gagnant est : " + gagnant.getNom() + " avec " + gagnant.getGrille().calculerScore() + " points !");
+	}
 
-			for (Joueur joueur : joueurs)
-			{
-				System.out.println("C'est au tour de " + joueur.getNom());
-				joueur.jouerTour(plateauJeu);
-			}
-
-			passerSemestre();
+	/**
+	 * Exécute le flux principal du jeu.
+	 */
+	public void jouer() {
+		System.out.println("Début du jeu !");
+		while (tourCourant < toursTotal) {
+			jouerTour();
 		}
 		terminerJeu();
 	}
 
+	/**
+	 * Gère un tour complet pour tous les joueurs.
+	 */
+	private void jouerTour() {
+		System.out.println("\n=== Tour " + (tourCourant + 1) + " ===");
+
+		plateauJeu.lancerDes();
+
+		for (Joueur joueur : joueurs) {
+			System.out.println("C'est au tour de " + joueur.getNom());
+			joueur.jouerTour(plateauJeu, semestre);
+		}
+
+		passerSemestre();
+	}
 }

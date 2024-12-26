@@ -1,14 +1,15 @@
 public class Batiment {
 
-	public boolean construit;
-
+	private boolean construit;
 	private boolean protege;
-
-	// ajout statut detruit
 	private boolean detruit;
+	private final Bonhomme recompense;
 
-	private Bonhomme recompense;
-
+	/**
+	 * Constructeur pour créer un bâtiment avec une récompense donnée.
+	 *
+	 * @param recompense Récompense associée au bâtiment
+	 */
 	public Batiment(Bonhomme recompense) {
 		this.construit = false;
 		this.protege = false;
@@ -16,24 +17,35 @@ public class Batiment {
 		this.recompense = recompense;
 	}
 
+	/**
+	 * Construit le bâtiment si ce n'est pas déjà fait et s'il n'est pas détruit.
+	 *
+	 * @return Le bâtiment construit ou null si la construction a échoué
+	 */
 	public Batiment construire() {
-		this.construit = true;
-		return this;
+		if (!this.construit && !this.detruit) {
+			this.construit = true;
+			return this;
+		}
+		return null;
 	}
 
+	/**
+	 * Détruit le bâtiment si ce dernier n'est pas protégé et s'il n'est pas construit.
+	 */
 	public void detruire() {
-		this.detruit = true;
+		if (!this.construit && !this.protege) {
+			this.detruit = true;
+		}
 	}
 
-	public boolean getConstruit() {
+	// Getters et Setters
+
+	public boolean isConstruit() {
 		return construit;
 	}
 
-	public void setConstruit(boolean construit) {
-		this.construit = construit;
-	}
-
-	public boolean getProtege() {
+	public boolean isProtege() {
 		return protege;
 	}
 
@@ -41,19 +53,11 @@ public class Batiment {
 		this.protege = true;
 	}
 
-	public boolean getDetruit() {
+	public boolean isDetruit() {
 		return detruit;
-	}
-
-	public void setDetruit(boolean detruit) {
-		this.detruit = detruit;
 	}
 
 	public Bonhomme getRecompense() {
 		return recompense;
-	}
-
-	public void setRecompense(Bonhomme recompense) {
-		this.recompense = recompense;
 	}
 }
