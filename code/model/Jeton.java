@@ -1,3 +1,5 @@
+package model;
+
 public class Jeton {
 
 	private String couleurRecto;

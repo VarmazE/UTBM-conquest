@@ -1,5 +1,7 @@
+package model;
+
 /**
- * La classe Quartier représente un quartier composé de deux lignes :
+ * La classe model.Quartier représente un quartier composé de deux lignes :
  * une ligne de prestige et une ligne de fonction.
  */
 public class Quartier {
@@ -8,7 +10,7 @@ public class Quartier {
 	private Ligne[] lignes = new Ligne[2];
 
 	/**
-	 * Constructeur de la classe Quartier.
+	 * Constructeur de la classe model.Quartier.
 	 *
 	 * @param couleurQuartier La couleur du quartier.
 	 * @param lignePrestige   La ligne de prestige.

@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +52,7 @@ public class PlateauJeu {
 	/**
 	 * Crée une liste de ressources à partir d'une série d'arguments.
 	 *
-	 * @param r Ressources à inclure dans la liste.
+	 * @param r model.Ressources à inclure dans la liste.
 	 * @return Une liste contenant les ressources spécifiées.
 	 */
 	public ArrayList<Ressources> getArrayListRessources(Ressources... r) {

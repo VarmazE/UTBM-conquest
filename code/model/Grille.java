@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,7 +123,7 @@ public class Grille {
      * Avoir le bon quartier depuis le type
      *
      * @param p Le type du quartier
-     * @return Quartier le bon quartier
+     * @return model.Quartier le bon quartier
      */
     public Quartier choisirQuartier(String p) {
         return switch (p) {
@@ -272,7 +274,7 @@ public class Grille {
     }
 
     /**
-     * Gère les effets spécifiques du bâtiment TourPenchee.
+     * Gère les effets spécifiques du bâtiment model.TourPenchee.
      *
      * @param valeurDe la valeur du dé
      */
@@ -281,9 +283,9 @@ public class Grille {
     }
 
     /**
-     * Gère les effets spécifiques du bâtiment BureauAssociation.
+     * Gère les effets spécifiques du bâtiment model.BureauAssociation.
      *
-     * @param b          Le bâtiment BureauAssociation.
+     * @param b          Le bâtiment model.BureauAssociation.
      * @param zonesActives   Liste des 4 zones actives
      * @param des Liste des 4 dés
      */
@@ -305,9 +307,9 @@ public class Grille {
     }
 
     /**
-     * Gère les effets spécifiques du bâtiment SalleProfesseurs.
+     * Gère les effets spécifiques du bâtiment model.SalleProfesseurs.
      *
-     * @param b Le bâtiment SalleProfesseurs.
+     * @param b Le bâtiment model.SalleProfesseurs.
      */
     private void gererSalleProfesseurs(SalleProfesseurs b) {
         Personnage personnage = b.getPersonnage();
@@ -331,7 +333,7 @@ public class Grille {
 
     // Refaire méthode à la fin pour les plus motivés
     public void initializeQuartier() {
-        // Quartier Direction
+        // model.Quartier Direction
         List<Personnage> personnages = List.of(new Personnage("M. Gechter"),
                 new Personnage("M. Montavon"),
                 new Personnage("M. Brunoud"),
@@ -417,10 +419,10 @@ public class Grille {
         quartiers[0] = new Quartier(Constante.DIRECTION,l1,l2);
 
 
-        // Quartier Etudiant
+        // model.Quartier Etudiant
         quartiers[1] = new Quartier(Constante.ETUDIANT,l3,l4);
 
-        // Quartier professeur
+        // model.Quartier professeur
         quartiers[2] = new Quartier(Constante.PROFESSEUR, l5,l6);
     }
 

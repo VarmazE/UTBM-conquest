@@ -1,5 +1,7 @@
+package model;
+
 /**
- * La classe ListeBonhommes représente une liste de bonhommes associée à un type spécifique.
+ * La classe model.ListeBonhommes représente une liste de bonhommes associée à un type spécifique.
  */
 public class ListeBonhommes {
 
@@ -7,7 +9,7 @@ public class ListeBonhommes {
 	private String type; // Type de bonhommes (ex. Rouge, Jaune, Blanc)
 
 	/**
-	 * Constructeur de la classe ListeBonhommes.
+	 * Constructeur de la classe model.ListeBonhommes.
 	 *
 	 * @param type Le type de bonhommes.
 	 */

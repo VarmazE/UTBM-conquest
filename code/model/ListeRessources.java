@@ -1,5 +1,7 @@
+package model;
+
 /**
- * La classe ListeRessources représente une collection de ressources liées
+ * La classe model.ListeRessources représente une collection de ressources liées
  * à un type spécifique et gère leurs états ainsi que les bonus associés.
  */
 public class ListeRessources {
@@ -15,7 +17,7 @@ public class ListeRessources {
 	private Bonhomme[] bonhommesBonus;
 
 	/**
-	 * Constructeur de la classe ListeRessources.
+	 * Constructeur de la classe model.ListeRessources.
 	 *
 	 * @param type Le type de ressource (par exemple, Communication, ECTS, Savoir).
 	 */

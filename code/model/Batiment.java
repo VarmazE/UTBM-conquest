@@ -1,3 +1,5 @@
+package model;
+
 public class Batiment {
 
 	private boolean construit;

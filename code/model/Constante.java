@@ -1,3 +1,5 @@
+package model;
+
 public class Constante {
     // Constantes pour les quartiers
     public static final String DIRECTION = "Direction";

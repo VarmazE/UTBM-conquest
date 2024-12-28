@@ -1,7 +1,9 @@
+package model;
+
 import java.util.List;
 
 /**
- * La classe Ligne représente une ligne dans un quartier, contenant des bâtiments,
+ * La classe model.Ligne représente une ligne dans un quartier, contenant des bâtiments,
  * un personnage associé et éventuellement des bonus.
  */
 public class Ligne {
@@ -12,7 +14,7 @@ public class Ligne {
 	private List<Bonus> bonus;
 
 	/**
-	 * Constructeur de la classe Ligne.
+	 * Constructeur de la classe model.Ligne.
 	 *
 	 * @param typeLigne          Le type de la ligne.
 	 * @param batiments          Les bâtiments de la ligne.

@@ -1,13 +1,15 @@
+package model;
+
 /**
- * La classe SalleProfesseurs représente un bâtiment spécifique
+ * La classe model.SalleProfesseurs représente un bâtiment spécifique
  * qui contient un personnage associé.
  */
 public class SalleProfesseurs extends Batiment {
 
-	private Personnage personnage; // Personnage associé à la salle des professeurs
+	private Personnage personnage; // model.Personnage associé à la salle des professeurs
 
 	/**
-	 * Constructeur de la classe SalleProfesseurs.
+	 * Constructeur de la classe model.SalleProfesseurs.
 	 *
 	 * @param recompense La récompense associée à la construction de la salle.
 	 * @param personnage Le personnage associé à la salle.

@@ -1,3 +1,5 @@
+package model;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,7 +19,6 @@ public class Joueur {
      *
      * @param p        Le plateau de jeu.
      * @param semestre Le semestre courant.
-     */
     public void jouerTour(PlateauJeu p, String semestre) {
         List<De> des = p.getDes();
         List<Zone> zones = p.getActiveZone(semestre);
@@ -49,7 +50,7 @@ public class Joueur {
         }
 
         System.out.println("Vos actions pour ce tour sont terminées !");
-    }
+    }*/
 
     /**
      * Permet au joueur de choisir une zone et de vérifier les conditions nécessaires.
@@ -75,7 +76,7 @@ public class Joueur {
         }
 
         if (!(des.get(index) instanceof DeNoir) && checkAndDepenseRessource(r.getType(), r.getNombre())) {
-            System.out.println("Zone sélectionnée avec succès à l'index " + index + ".");
+            System.out.println("model.Zone sélectionnée avec succès à l'index " + index + ".");
             return true;
         }
 

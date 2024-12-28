@@ -1,5 +1,7 @@
+package model;
+
 /**
- * La classe Personnage représente un personnage associé à chaque ligne qui aura
+ * La classe model.Personnage représente un personnage associé à chaque ligne qui aura
  * un impact sur le score de la ligne notamment avec son multiplicateur
  */
 public class Personnage {
@@ -8,7 +10,7 @@ public class Personnage {
 	private int multiplicateur;
 
 	/**
-	 * Constructeur de la classe Personnage.
+	 * Constructeur de la classe model.Personnage.
 	 *
 	 * @param nom Le nom du personnage.
 	 * @throws IllegalArgumentException Si le nom est null ou vide.

@@ -1,3 +1,5 @@
+package model;
+
 public class DeNoir extends De {
 
 	private boolean etat;

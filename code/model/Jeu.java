@@ -1,9 +1,10 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
- * La classe Jeu gère le flux principal du jeu, y compris l'initialisation, les tours,
+ * La classe model.Jeu gère le flux principal du jeu, y compris l'initialisation, les tours,
  * les semestres, et la fin du jeu.
  */
 public class Jeu {
@@ -16,7 +17,7 @@ public class Jeu {
 	private ArrayList<Joueur> joueurs;
 
 	/**
-	 * Constructeur de la classe Jeu.
+	 * Constructeur de la classe model.Jeu.
 	 *
 	 * @param players Les joueurs participant au jeu.
 	 */
@@ -32,6 +33,21 @@ public class Jeu {
 	}
 
 	/**
+	 * Constructeur de la classe model.Jeu.
+	 *
+	 * @param players List des joueurs
+	 */
+	public Jeu(ArrayList<Joueur> players) {
+		/*if (players.length < 1) {
+			throw new IllegalArgumentException("Il doit y avoir au moins un joueur.");
+		}*/
+
+		joueurs = players;
+
+		initialiserJeu();
+	}
+
+	/**
 	 * Initialise le jeu : plateau, tours et semestre.
 	 */
 	private void initialiserJeu() {
@@ -42,13 +58,13 @@ public class Jeu {
 		toursTotal = 8;
 		semestre = Constante.AUTOMNE;
 
-		System.out.println("Jeu initialisé !");
+		System.out.println("model.Jeu initialisé !");
 	}
 
 	/**
 	 * Passe au semestre suivant, tourne le plateau et met à jour le tour courant si nécessaire.
 	 */
-	private void passerSemestre() {
+	public void passerSemestre() {
 		if (tourCourant >= toursTotal) {
 			System.out.println("Le jeu est terminé.");
 			return;
@@ -70,7 +86,7 @@ public class Jeu {
 	private void afficherScores() {
 		System.out.println("Scores des joueurs :");
 		for (Joueur j : joueurs) {
-			System.out.println("Joueur : " + j.getNom() + " - Score : " + j.getScore());
+			System.out.println("model.Joueur : " + j.getNom() + " - Score : " + j.getScore());
 		}
 	}
 
@@ -91,18 +107,17 @@ public class Jeu {
 
 	/**
 	 * Exécute le flux principal du jeu.
-	 */
+
 	public void jouer() {
 		System.out.println("Début du jeu !");
 		while (tourCourant < toursTotal) {
 			jouerTour();
 		}
 		terminerJeu();
-	}
+	}*/
 
-	/**
+	/*
 	 * Gère un tour complet pour tous les joueurs.
-	 */
 	private void jouerTour() {
 		System.out.println("\n=== Tour " + (tourCourant + 1) + " ===");
 
@@ -114,5 +129,36 @@ public class Jeu {
 		}
 
 		passerSemestre();
+	}*/
+
+
+/*
+	public void jouerTour(int joueurIndex) {
+	/*	if (joueurIndex < 0 || joueurIndex >= joueurs.size()) {
+			throw new IllegalArgumentException("Index du joueur invalide !");
+		}
+
+		Joueur joueur = joueurs.get(joueurIndex);
+		joueur.jouerTour(plateauJeu, semestre);
+	}
+*/
+	public boolean isPartieTerminee() {
+		return tourCourant >= toursTotal;
+	}
+
+	public ArrayList<Joueur> getJoueurs() {
+		return joueurs;
+	}
+
+	public int getTourCourant() {
+		return tourCourant;
+	}
+
+	public String getSemestre() {
+		return semestre;
+	}
+
+	public PlateauJeu getPlateauJeu() {
+		return plateauJeu;
 	}
 }

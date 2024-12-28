@@ -1,8 +1,10 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * La classe Bonus représente un bonus déblocable en construisant certains bâtiments adjacents.
+ * La classe model.Bonus représente un bonus déblocable en construisant certains bâtiments adjacents.
  */
 public class Bonus {
 
@@ -11,7 +13,7 @@ public class Bonus {
 	private List<Batiment> batimentsRequis;
 
 	/**
-	 * Constructeur de la classe Bonus.
+	 * Constructeur de la classe model.Bonus.
 	 *
 	 * @param recompenses La récompense associée au bonus.
 	 * @param b1 Le premier bâtiment requis.
