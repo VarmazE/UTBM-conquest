@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Cout {
 
 	private ArrayList<Ressources> listRessources;
+	private int montant;
 
 	/**
 	 * Constructeur par défaut.
@@ -12,6 +13,7 @@ public class Cout {
 	 */
 	public Cout() {
 		this.listRessources = new ArrayList<>();
+		this.montant = 0;
 	}
 
 	/**
@@ -24,6 +26,7 @@ public class Cout {
 			throw new IllegalArgumentException("La liste de ressources ne peut pas être nulle.");
 		}
 		this.listRessources = new ArrayList<>(lr);
+		this.montant = this.listRessources.get(0).getNombre();
 	}
 
 	/**
@@ -53,5 +56,9 @@ public class Cout {
 				return true;
 		}
 		return false;
+	}
+
+	public int getMontant() {
+		return montant;
 	}
 }

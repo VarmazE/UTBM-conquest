@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,6 +9,9 @@ public class Joueur {
     private String nom;
     private Grille grille;
     int score;
+    private List<Zone> zonesJoueur;
+    private List<De> des;
+
 
     public Joueur(String nom) {
         this.nom = nom;
@@ -88,6 +92,10 @@ public class Joueur {
         return grille;
     }
 
+    public boolean ajouterRessource(String type, int nombre) {
+        return grille.ajouterRessource(new Ressources(type, nombre));
+    }
+
     public String getNom() {
         return nom;
     }
@@ -100,7 +108,36 @@ public class Joueur {
         return false;
     }
 
-    public boolean incrementerDes(De de) {
+    public void setZonesJoueur(List<Zone> zones) {
+        this.zonesJoueur = new ArrayList<>();
+        for (Zone z : zones) {
+            this.zonesJoueur.add(new Zone(z)); // Copie indépendante
+        }
+    }
+
+    public void setDes(List<De> des) {
+        this.des = new ArrayList<>();
+        for (De de : des) {
+            if(de instanceof DeNoir) {
+                this.des.add(new DeNoir(de));
+            } else {
+                this.des.add(new De(de));
+
+            }
+        }
+    }
+
+    public List<De> getDes() {
+        return des;
+    }
+
+    public List<Zone> getZonesJoueur() {
+        return zonesJoueur;
+    }
+
+    public boolean incrementerDes(De d) {
+        De de = getRightDe(d);
+        if(de == null) return false;
         if (de.incrementer() && checkAndDepenseRessource(Constante.COMMUNICATION, 1)) {
             System.out.println("Le dé a été incrémenté avec succès.");
             return true;
@@ -110,7 +147,9 @@ public class Joueur {
         }
     }
 
-    public boolean decrementerDes(De de) {
+    public boolean decrementerDes(De d) {
+        De de = getRightDe(d);
+        if(de == null) return false;
         if (de.decrementer() && checkAndDepenseRessource(Constante.COMMUNICATION, 1)) {
             System.out.println("Le dé a été décrémenté.");
             return true;
@@ -120,16 +159,42 @@ public class Joueur {
         }
     }
 
+    public De getRightDe(De de) {
+        for (De d : des) {
+            if (d.equals(de)) {
+                return d;
+            }
+        }
+        return null;
+    }
+
     public boolean changerCouleurJeton(Zone zone) {
-        if (checkAndDepenseRessource(Constante.SAVOIR, 2)) {
-            zone.getJeton().inverserCouleur();
-            System.out.println("La couleur du jeton a été changée avec succès.");
-            return true;
-        } else {
+        if (zone == null) {
+            System.out.println("Zone invalide.");
+            return false;
+        }
+
+        Zone zoneCible = zonesJoueur.stream()
+                .filter(z -> z.getId() == zone.getId())
+                .findFirst()
+                .orElse(null);
+
+        if (zoneCible == null) {
+            System.out.println("La zone spécifiée n'appartient pas au joueur.");
+            return false;
+        }
+
+        if (!checkAndDepenseRessource(Constante.SAVOIR, 2)) {
             System.out.println("Pas assez de ressources pour changer la couleur du jeton.");
             return false;
         }
+
+        // Changer la couleur du jeton
+        zoneCible.getJeton().inverserCouleur();
+        System.out.println("La couleur du jeton a été changée avec succès.");
+        return true;
     }
+
 
     // Méthodes utilitaires
 

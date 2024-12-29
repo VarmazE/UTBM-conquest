@@ -31,7 +31,7 @@ public class SelectionJoueurController {
 
                 // Initialiser le modèle Jeu avec les joueurs
                 jeu = new Jeu(players);
-                //new JeuController(stage, jeu);
+                new GameBoardController(stage, jeu);
             });
         });
     }

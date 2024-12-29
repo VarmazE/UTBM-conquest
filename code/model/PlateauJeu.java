@@ -18,7 +18,6 @@ public class PlateauJeu {
 		listeCout = new Cout[9];
 		listeZone = new ArrayList<>();
 
-		// Initialisation des dés
 		listeDes.add(new De());
 		listeDes.add(new De());
 		listeDes.add(new De());
@@ -87,14 +86,31 @@ public class PlateauJeu {
 		for (De d : listeDes) {
 			d.lancerDe();
 		}
+		trierDes();
 	}
 
 	/**
-	 * Trie les dés en fonction de leur valeur.
+	 * Trie les dés en fonction de leur valeur, en plaçant le dé noir avant si deux dés ont la même valeur.
 	 */
 	public void trierDes() {
-		listeDes.sort((de1, de2) -> Integer.compare(de1.getValeurDe(), de2.getValeurDe()));
+		listeDes.sort((de1, de2) -> {
+			// Comparaison par valeur
+			int comparaisonValeur = Integer.compare(de1.getValeurDe(), de2.getValeurDe());
+
+			// Si les valeurs sont égales, on vérifie la priorité du dé noir
+			if (comparaisonValeur == 0) {
+				if (de1 instanceof DeNoir && !(de2 instanceof DeNoir) ) {
+					return -1; // Le dé noir avant
+				} else if (!(de1 instanceof DeNoir) && de2 instanceof DeNoir) {
+					return 1; // Le dé normal après
+				}
+			}
+
+			// Sinon, retourne la comparaison classique
+			return comparaisonValeur;
+		});
 	}
+
 
 	/**
 	 * Obtient les zones actives en fonction du semestre.
@@ -106,9 +122,9 @@ public class PlateauJeu {
 		ArrayList<Zone> list = new ArrayList<>();
 		ArrayList<Zone> activeZones = new ArrayList<>();
 
-		if ("Automne".equalsIgnoreCase(semestre)) {
+		if (Constante.AUTOMNE.equalsIgnoreCase(semestre)) {
 			list.addAll(listeZone.subList(1, 5));
-		} else if ("Printemps".equalsIgnoreCase(semestre)) {
+		} else if (Constante.PRINTEMPS.equalsIgnoreCase(semestre)) {
 			list.addAll(listeZone.subList(5, 9));
 		}
 
@@ -125,9 +141,14 @@ public class PlateauJeu {
 	 * @return La liste des dés.
 	 */
 	public List<De> getDes() {
+
 		List<De> copieDes = new ArrayList<>();
 		for (De de : listeDes) {
-			copieDes.add(new De(de));
+			if(de instanceof DeNoir){
+				copieDes.add(new DeNoir(de));
+			} else{
+				copieDes.add(new De(de));
+			}
 		}
 		return copieDes;
 	}
@@ -147,7 +168,11 @@ public class PlateauJeu {
 	 * @return La liste des zones.
 	 */
 	public List<Zone> getAllZone() {
-		return listeZone;
+		List<Zone> list = new ArrayList<>();
+		for (Zone z : listeZone) {
+			list.add(new Zone(z));
+		}
+		return list;
 	}
 
 	/**
@@ -174,5 +199,13 @@ public class PlateauJeu {
 			return listeDes.get(i);
 		}
 		return null;
+	}
+
+	public void setDeNoirActif(){
+		for(De d : listeDes){
+			if(d instanceof DeNoir){
+				((DeNoir) d).setActif();
+			}
+		}
 	}
 }

@@ -45,7 +45,7 @@ public class Grille {
      *
      * @param r La ressource à ajouter.
      */
-    public void ajouterRessource(Ressources r) {
+    public boolean ajouterRessource(Ressources r) {
         /*
          * if (r == null) {
          * throw new IllegalArgumentException("La ressource ne peut pas être nulle.");
@@ -59,8 +59,10 @@ public class Grille {
             if (bonus != null) {
                 ajouterBonhomme(bonus);
             }
+            return true;
         } else {
             System.out.println("Type de ressource non pris en charge : " + r.getType());
+            return false;
         }
     }
 
@@ -79,6 +81,7 @@ public class Grille {
 
         int index = getRessourcesIndex(r.getType());
         if (index != -1) {
+            System.out.println("Type de ressource non pris en charge : " + r.getType() + " " + r.getNombre());
             return listeRessources[index].RemoveRessource(r);
         } else {
             System.out.println("Type de ressource non pris en charge : " + r.getType());
@@ -154,7 +157,7 @@ public class Grille {
         }
 
         Ligne ligne = quartier.choisirLigne(typeBatiment);
-        Batiment batiment = ligne.getBatiment(de.getValeurDe()).construire();
+        Batiment batiment = ligne.getBatiment(de.getValeurDe() - 1).construire();
 
         if (batiment != null) {
             traiterRecompensesEtBonus(batiment, ligne);
@@ -192,7 +195,7 @@ public class Grille {
      */
     public void checkBatimentPrestige(int index, Batiment b, List<Zone> zonesActives, List<De> des) {
         if (b instanceof TourPenchee) {
-            gererTourPenchee(des.get(index).getValeurDe());
+            gererTourPenchee(des.get(index).getValeurDe() - 1);
         } else if (b instanceof BureauAssociation) {
             gererBureauAssociation((BureauAssociation) b, zonesActives, des);
         } else if (b instanceof SalleProfesseurs) {
@@ -203,8 +206,11 @@ public class Grille {
     public void detruireColonne(String couleurQuartier, int colonne) {
         Quartier quartier = choisirQuartier(couleurQuartier);
         // change here
-        quartier.choisirLigne("Prestige").getBatiment(colonne).detruire();
-        quartier.choisirLigne("Fonction").getBatiment(colonne).detruire();
+        quartier.choisirLigne(Constante.FONCTION).getBatiment(colonne).detruire();
+        System.out.println(quartier + " detruirement");
+
+        quartier.choisirLigne(Constante.PRESTIGE).getBatiment(colonne).detruire();
+        System.out.println(quartier + " detruirements");
     }
 
     public void protegerColonne(int colonne) {
@@ -426,5 +432,16 @@ public class Grille {
         quartiers[2] = new Quartier(Constante.PROFESSEUR, l5,l6);
     }
 
+    public Quartier[] getQuartier(){
+        return quartiers;
+    }
+
+    public ListeRessources[] getListeRessources() {
+        return this.listeRessources;
+    }
+
+    public ListeBonhommes[] getListeBonhommes(){
+        return this.listeBonhommes;
+    }
 
 }

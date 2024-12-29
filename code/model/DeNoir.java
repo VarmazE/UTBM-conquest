@@ -12,6 +12,11 @@ public class DeNoir extends De {
 		this.etat = false;
 	}
 
+	public DeNoir(De noir){
+		super(noir);
+		this.etat = ((DeNoir) noir).etat;
+	}
+
 	/**
 	 * Vérifie si le dé noir est actif.
 	 *
@@ -27,4 +32,6 @@ public class DeNoir extends De {
 	public void setActif() {
 		this.etat = true;
 	}
+
+
 }

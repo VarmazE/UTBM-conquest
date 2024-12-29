@@ -54,8 +54,8 @@ public class Jeu {
 		System.out.println("Initialisation du jeu...");
 
 		plateauJeu = new PlateauJeu();
-		tourCourant = 0;
-		toursTotal = 8;
+		tourCourant = 1;
+		toursTotal = 3;
 		semestre = Constante.AUTOMNE;
 
 		System.out.println("model.Jeu initialisé !");
@@ -160,5 +160,24 @@ public class Jeu {
 
 	public PlateauJeu getPlateauJeu() {
 		return plateauJeu;
+	}
+
+	public Joueur getJoueur(int id) {
+		return joueurs.get(id);
+	}
+
+
+	public String getRightRessource(String couleur){
+		return switch (couleur){
+			case Constante.DIRECTION -> Constante.COMMUNICATION;
+			case Constante.ETUDIANT -> Constante.ECTS;
+			case Constante.PROFESSEUR-> Constante.SAVOIR;
+			default -> "";
+		};
+
+	}
+
+	public int getToursTotal() {
+		return toursTotal;
 	}
 }

@@ -138,6 +138,10 @@ public class ListeRessources {
 			return false;
 		}
 
+		if(toRemove  == 0){
+			return true;
+		}
+
 		for (int i = 0; i < RESSOURCES_SIZE; i++) {
 			if (ressources[i] == OWNED) {
 				ressources[i] = USED;

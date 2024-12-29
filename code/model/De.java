@@ -3,16 +3,20 @@ package model;
 public class De {
 
 	private int valeurDe;
+	private int id;
+	private static int compteur = 0;
 
 	/**
 	 * Constructeur par défaut : initialise le dé avec une valeur entre 1 et 6.
 	 */
 	public De() {
 		this.valeurDe = 0;
+		this.id = ++compteur;
 	}
 
 	public De(De de){
 		this.valeurDe = de.valeurDe;
+		this.id = de.id;
 	}
 
 	/**
@@ -71,5 +75,17 @@ public class De {
 			return true;
 
 		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		De other = (De) obj;
+		return this.id == other.id;
 	}
 }
