@@ -29,6 +29,10 @@ public class Grille {
         listeBonhommes[1] = new ListeBonhommes(Constante.JAUNE);
         listeBonhommes[2] = new ListeBonhommes(Constante.BLANC);
 
+        ajouterBonhomme(new Bonhomme(Constante.BLANC,1));
+        ajouterBonhomme(new Bonhomme(Constante.JAUNE,1));
+        ajouterBonhomme(new Bonhomme(Constante.ROUGE,1));
+
     }
 
     public ListeRessources getRessourceByType(String type) {
@@ -297,17 +301,19 @@ public class Grille {
      */
     private void gererBureauAssociation(BureauAssociation b, List<Zone> zonesActives, List<De> des) {
         String couleur = b.getCouleurJeton();
-        Recompenses recompenses = b.getRecompense();
+        Recompenses recompenses = b.getRecompenseCase();
 
         int multiplicateur = 0;
         for (int i = 0; i < zonesActives.size(); i++) {
             if (!(des.get(i) instanceof DeNoir) && zonesActives.get(i).getJeton().getCouleur().equals(couleur)) {
+                System.out.println("Incrémenté !");
                 multiplicateur++;
             }
         }
 
         if (recompenses != null) {
             recompenses.setMultiplicateur(multiplicateur);
+            System.out.println("recompenses nombre : " +  recompenses.getNombre());
             appliquerRecompenses(recompenses);
         }
     }
@@ -331,8 +337,10 @@ public class Grille {
      */
     private void appliquerRecompenses(Recompenses recompenses) {
         if (recompenses instanceof Bonhomme) {
+            System.out.println("Bonhomme : " + recompenses.getClass() + " " + recompenses.getNombre());
             ajouterBonhomme((Bonhomme) recompenses);
         } else if (recompenses instanceof Ressources) {
+            System.out.println("Ressources : " + recompenses.getClass() + " " + recompenses.getNombre());
             ajouterRessource((Ressources) recompenses);
         }
     }
@@ -353,7 +361,7 @@ public class Grille {
         List<Bonhomme> bon1 = List.of(new Bonhomme(Constante.ROUGE, 1), new Bonhomme(Constante.ROUGE, 1), new Bonhomme(Constante.JAUNE, 1), new Bonhomme(Constante.JAUNE, 1), new Bonhomme(Constante.BLANC, 1), new Bonhomme(Constante.BLANC, 1));
         List<Bonhomme> bon2 = List.of(new Bonhomme(Constante.ROUGE, 2), new Bonhomme(Constante.ROUGE, 2), new Bonhomme(Constante.ROUGE, 2), new Bonhomme(Constante.ROUGE, 2), new Bonhomme(Constante.ROUGE, 2), new Bonhomme(Constante.ROUGE, 2));
         List<Bonhomme> bon3 = List.of(new Bonhomme(Constante.JAUNE, 0), new Bonhomme(Constante.JAUNE, 0), new Bonhomme(Constante.JAUNE, 0), new Bonhomme(Constante.JAUNE, 0), new Bonhomme(Constante.JAUNE, 0), new Bonhomme(Constante.JAUNE, 0));
-        List<Bonhomme> bon4 = List.of(new Bonhomme(Constante.ROUGE, 2), new Bonhomme(Constante.ROUGE, 2), new Bonhomme(Constante.ROUGE, 2), new Bonhomme(Constante.ROUGE, 2), new Bonhomme(Constante.ROUGE, 2), new Bonhomme(Constante.ROUGE, 2));
+        List<Bonhomme> bon4 = List.of(new Bonhomme(Constante.JAUNE, 2), new Bonhomme(Constante.JAUNE, 2), new Bonhomme(Constante.JAUNE, 2), new Bonhomme(Constante.JAUNE, 2), new Bonhomme(Constante.JAUNE, 2), new Bonhomme(Constante.JAUNE, 2));
         List<Bonhomme> bon5 = List.of(new Bonhomme(Constante.BLANC, 0), new Bonhomme(Constante.BLANC, 0), new Bonhomme(Constante.BLANC, 0), new Bonhomme(Constante.BLANC, 0), new Bonhomme(Constante.BLANC, 0), new Bonhomme(Constante.BLANC, 0));
         List<Bonhomme> bon6 = List.of(new Bonhomme(Constante.BLANC, 2), new Bonhomme(Constante.BLANC, 2), new Bonhomme(Constante.BLANC, 2), new Bonhomme(Constante.BLANC, 2), new Bonhomme(Constante.BLANC, 2), new Bonhomme(Constante.BLANC, 2));
 

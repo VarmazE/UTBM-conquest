@@ -68,8 +68,8 @@ public class GameBoardView {
 
         HBox mainContainer = new HBox(300, zoneContainer, grilleContainer); // Ajoute un espace fixe de 50px
         mainContainer.setAlignment(Pos.CENTER); // Centre les éléments dans l'HBox
-        mainContainer.setPadding(new Insets(20)); // Ajoute un padding uniforme autour du contenu
-        mainContainer.setPrefHeight(500); // Assurez-vous que la hauteur totale est bien définie
+        mainContainer.setPadding(new Insets(10)); // Ajoute un padding uniforme autour du contenu
+        //mainContainer.setPrefHeight(400); // Assurez-vous que la hauteur totale est bien définie
         // Conteneur des ressources
         resourcesContainer = new VBox(10);
         resourcesContainer.setAlignment(Pos.CENTER);
@@ -87,7 +87,7 @@ public class GameBoardView {
         buttonContainer.setAlignment(Pos.CENTER);
         buttonContainer.setPadding(new Insets(10));
 
-        VBox topBar = new VBox(20, currentPlayerLabel, tourLabel, bonhommesContainer);
+        VBox topBar = new VBox(10, currentPlayerLabel, tourLabel, bonhommesContainer);
         topBar.setAlignment(Pos.CENTER_LEFT); // Alignement à gauche
         topBar.setPadding(new Insets(10));
 
@@ -104,8 +104,9 @@ public class GameBoardView {
         root.setBottom(bottomContainer); // Boutons en bas
 
 
-        Scene scene = new Scene(root, 1200, 1000); // Taille ajustée pour inclure tout
+        Scene scene = new Scene(root, 1100, 850); // Taille ajustée pour inclure tout
         stage.setScene(scene);
+        stage.setResizable(true);
         stage.setTitle("Plateau de Jeu");
         stage.show();
 
@@ -125,8 +126,8 @@ public class GameBoardView {
         zonePane.getChildren().clear(); // Réinitialise les zones
         zoneMap.clear(); // Réinitialise la map
 
-        double centerX = 300, centerY = 300; // Centre du plateau
-        double radius = 200; // Rayon du plateau
+        double centerX = 300, centerY = 220; // Centre du plateau
+        double radius = 170;
         double startAngle = 290;
         double angleStep = -(360.0 / zones.size());
 
@@ -178,7 +179,7 @@ public class GameBoardView {
                 double img1X = centerX + (radius - 100) * Math.cos(Math.toRadians(startAngle + angleStep / 2)) - 15;
                 double img1Y = centerY - (radius - 100) * Math.sin(Math.toRadians(startAngle + angleStep / 2)) - 15;
 
-                ImageView img1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/1_player.png"))));
+                ImageView img1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(getRightMonnaie(zone.getCout())))));
                 img1.setFitWidth(30);
                 img1.setFitHeight(30);
                 img1.setLayoutX(img1X);
@@ -384,9 +385,9 @@ public class GameBoardView {
         grilleContainer.getChildren().clear(); // Réinitialise l'affichage
 
         for (Quartier quartier : quartiers) {
-            VBox quartierBox = new VBox(10);
+            VBox quartierBox = new VBox(5);
             quartierBox.setAlignment(Pos.CENTER);
-            quartierBox.setPadding(new Insets(10));
+            quartierBox.setPadding(new Insets(5));
 
             // Couleur de fond basée sur la couleur du quartier
             quartierBox.setStyle("-fx-background-color: " + getBackgroundColor(quartier.getCouleurQuartier()) + ";");
@@ -414,7 +415,7 @@ public class GameBoardView {
 
                 // Ajouter la case grise par défaut
                 StackPane defaultBatimentPane = new StackPane();
-                defaultBatimentPane.setPrefSize(50, 50);
+                defaultBatimentPane.setPrefSize(40, 40);
 
                 ImageView defaultBatimentImage = new ImageView();
                 if (i == 0) {
@@ -456,7 +457,7 @@ public class GameBoardView {
 
                     // Créer le panneau du bâtiment
                     StackPane batimentPane = new StackPane();
-                    batimentPane.setPrefSize(50, 50);
+                    batimentPane.setPrefSize(40, 40);
                     batimentPane.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
 
                     try {
@@ -483,7 +484,7 @@ public class GameBoardView {
                 // Ajouter un cercle avec le multiplicateur
                 int multiplicateur = ligne.getPersonnageAssocie().getMultiplicateur();
                 StackPane multiplicateurPane = new StackPane();
-                multiplicateurPane.setPrefSize(50, 50);
+                multiplicateurPane.setPrefSize(40, 40);
 
                 Circle circle = new Circle(20, Color.LIGHTGRAY);
                 circle.setStroke(Color.BLACK);
@@ -594,7 +595,7 @@ public class GameBoardView {
         bonhommesContainer.getChildren().clear(); // Réinitialise l’affichage
 
         for (ListeBonhommes liste : listeBonhommes) {
-            HBox groupeBox = new HBox(10); // Conteneur horizontal pour un groupe de bonhommes
+            HBox groupeBox = new HBox(5);
             groupeBox.setAlignment(Pos.CENTER_LEFT);
             String path_img= "", couleur="";
 
@@ -620,7 +621,7 @@ public class GameBoardView {
             }
 
             groupeBox.setStyle("-fx-background-color: %s;-fx-border-radius: 10".formatted(couleur));
-            groupeBox.setMaxSize(30 * liste.getNombre(), 30);
+            groupeBox.setMaxSize(20 * liste.getNombre(), 20);
 
 
             for (int i = 0; i < liste.getNombre(); i++) {
@@ -630,8 +631,8 @@ public class GameBoardView {
                     ImageView bonhommeImage = new ImageView(new Image(
                             Objects.requireNonNull(getClass().getResourceAsStream("/img/" + path_img))
                     ));
-                    bonhommeImage.setFitWidth(30); // Largeur ajustée
-                    bonhommeImage.setFitHeight(30); // Hauteur ajustée
+                    bonhommeImage.setFitWidth(20); // Largeur ajustée
+                    bonhommeImage.setFitHeight(20); // Hauteur ajustée
                     groupeBox.getChildren().add(bonhommeImage); // Ajoute l'image au groupe
                 } catch (Exception e) {
                     System.err.println("Erreur lors du chargement de l'image : " + path_img);
@@ -681,6 +682,21 @@ public class GameBoardView {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getRightMonnaie(Cout c){
+        String path = "/img/monnaie/";
+        if(c.getListRessources().size() > 1){
+            return path + "1_ects_and_other.png";
+        }
+        int montant = c.getMontant();
+        return switch (montant){
+            case 0 -> path + "0_ects.png";
+            case 1 -> path + "1_ects.png";
+            case 2 -> path + "2_ects.png";
+            default -> "";
+        };
+
     }
 
 

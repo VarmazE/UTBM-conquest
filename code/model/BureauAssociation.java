@@ -8,7 +8,6 @@ package model;
 public class BureauAssociation extends Batiment {
 
 	private String couleurJeton;
-	private int nombre; // Multiplicateur récompense
 	private Recompenses recompenseCase;
 	/**
 	 * Constructeur de la classe model.BureauAssociation.
@@ -40,4 +39,5 @@ public class BureauAssociation extends Batiment {
 	public Recompenses getRecompenseCase() {
 		return recompenseCase;
 	}
+
 }

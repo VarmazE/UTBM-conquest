@@ -120,7 +120,7 @@ public class PlateauJeu {
 	 */
 	public ArrayList<Zone> getActiveZone(String semestre) {
 		ArrayList<Zone> list = new ArrayList<>();
-		ArrayList<Zone> activeZones = new ArrayList<>();
+//		ArrayList<Zone> activeZones = new ArrayList<>();
 
 		if (Constante.AUTOMNE.equalsIgnoreCase(semestre)) {
 			list.addAll(listeZone.subList(1, 5));
@@ -128,9 +128,36 @@ public class PlateauJeu {
 			list.addAll(listeZone.subList(5, 9));
 		}
 
-		for (Zone z : list) {
-			activeZones.add(new Zone(z));
+//		for (Zone z : list) {
+//		activeZones.add(new Zone(z));
+//		}
+
+		return list;
+	}
+
+	/**
+	 * Obtient les zones actives en fonction du semestre.
+	 *
+	 * @param semestre Le semestre ("Automne" ou "Printemps").
+	 * @param zones Liste de zone
+	 * @return Une liste des zones actives.
+	 */
+	public ArrayList<Zone> getActiveZone(String semestre, List<Zone> zones) {
+		ArrayList<Zone> list = new ArrayList<>();
+		if(zones.size() < 9	){
+			return 	list;
 		}
+
+
+		if (Constante.AUTOMNE.equalsIgnoreCase(semestre)) {
+			list.addAll(zones.subList(1, 5));
+		} else if (Constante.PRINTEMPS.equalsIgnoreCase(semestre)) {
+			list.addAll(zones.subList(5, 9));
+		}
+
+//		for (Zone z : list) {
+//		activeZones.add(new Zone(z));
+//		}
 
 		return list;
 	}
@@ -142,15 +169,17 @@ public class PlateauJeu {
 	 */
 	public List<De> getDes() {
 
-		List<De> copieDes = new ArrayList<>();
+		/*List<De> copieDes = new ArrayList<>();
 		for (De de : listeDes) {
 			if(de instanceof DeNoir){
 				copieDes.add(new DeNoir(de));
 			} else{
 				copieDes.add(new De(de));
 			}
-		}
+		}/*
 		return copieDes;
+		 */
+		return listeDes;
 	}
 
 	/**

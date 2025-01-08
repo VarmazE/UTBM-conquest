@@ -1,8 +1,5 @@
 package controller;
 
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Arc;
 import javafx.stage.Stage;
 import model.*;
@@ -157,7 +154,8 @@ public class GameBoardController {
     }
 
     private void changeJetonColor() {
-        if (!colorChangeUsed && !decisiveActionUsed && joueur.changerCouleurJeton(jeu.getPlateauJeu().getActiveZone(jeu.getSemestre()).get(indexZone))) {
+        System.out.println(jeu.getPlateauJeu().getActiveZone(jeu.getSemestre(),joueur.getZonesJoueur()));
+        if (!colorChangeUsed && !decisiveActionUsed && joueur.changerCouleurJeton(jeu.getPlateauJeu().getActiveZone(jeu.getSemestre(),joueur.getZonesJoueur()).get(indexZone))) {
             colorChangeUsed = true;
             view.getChangeColorButton().setDisable(true);
             zoneUpdate();
@@ -168,7 +166,7 @@ public class GameBoardController {
 
     private void gainResource() {
         if (!decisiveActionUsed) {
-            String couleurJeton = jeu.getPlateauJeu().getActiveZone(jeu.getSemestre()).get(indexZone).getJeton().getCouleur();
+            String couleurJeton = jeu.getPlateauJeu().getActiveZone(jeu.getSemestre(),joueur.getZonesJoueur()).get(indexZone).getJeton().getCouleur();
             int montantRessource = joueur.getDes().get(indexZone).getValeurDe();
             if (joueur.ajouterRessource(jeu.getRightRessource(couleurJeton), montantRessource)) {
                 decisiveActionUsed = true;
@@ -188,7 +186,7 @@ public class GameBoardController {
             if (batimentIndex >= 0 && batimentIndex < ligne.getBatiments().length) {
                 Batiment batiment = ligne.getBatiments()[batimentIndex];
 
-                if (!batiment.isConstruit() && joueur.getGrille().construireBatiment(ligne.getTypeLigne(), getZonesActiveFromJoueur(), joueur.getDes(), indexZone)) {
+                if (!batiment.isConstruit() && joueur.getGrille().construireBatiment(ligne.getTypeLigne(), jeu.getPlateauJeu().getActiveZone(jeu.getSemestre(),joueur.getZonesJoueur()), joueur.getDes(), indexZone)) {
                     decisiveActionUsed = true;
                     disableAllButtonsExceptNextPlayer();
                     zoneUpdate();
