@@ -54,8 +54,8 @@ public class Jeu {
 		System.out.println("Initialisation du jeu...");
 
 		plateauJeu = new PlateauJeu();
-		tourCourant = 1;
-		toursTotal = 3;
+		tourCourant = 0;
+		toursTotal = 8;
 		semestre = Constante.AUTOMNE;
 
 		System.out.println("model.Jeu initialisé !");

@@ -237,9 +237,9 @@ public class Grille {
         this.score = quartiers[0].calculerScoreQuartier()
                 + quartiers[1].calculerScoreQuartier()
                 + quartiers[2].calculerScoreQuartier()
-                + listeRessources[0].calculerRessource()
-                + listeRessources[1].calculerRessource()
-                + listeRessources[2].calculerRessource()
+                + listeRessources[0].calculerRessource()/2
+                + listeRessources[1].calculerRessource()/2
+                + listeRessources[2].calculerRessource()/2
                 + listeBonhommes[0].getNombre()
                 + listeBonhommes[1].getNombre()
                 + listeBonhommes[2].getNombre();
